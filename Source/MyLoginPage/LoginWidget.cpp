@@ -2,11 +2,10 @@
 
 
 #include "LoginWidget.h"
-#include "Blueprint/UserWidget.h"
+#include "Components/WidgetSwitcher.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
 #include "Components/TextBlock.h"
-
 
 
 void ULoginWidget::NativeConstruct()
@@ -45,6 +44,16 @@ void ULoginWidget::OnLoginButtonClicked()
 	    		 if (Password == FoundUserData->PassWord)
 				 {
 					 ErrorMessage->SetText(FText::FromString("login SuccessFully"));
+
+
+					 if (!ensure(LoginSwitcher != nullptr)) return;
+					 if (!ensure(FriendPageWidget != nullptr)) return;
+					 LoginSwitcher->SetActiveWidget(FriendPageWidget);
+					 if (!ensure(FriendMenu != nullptr)) return;
+
+					
+					
+					 
 				 }
 				 else 
 				 {

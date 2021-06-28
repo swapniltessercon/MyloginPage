@@ -20,6 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 private:
 		TSubclassOf<UUserWidget> LoginClass;
+		//TSubclassOf<UUserWidget> FriendListClass;
 
 		UPROPERTY()
 		 UUserWidget* Widget;

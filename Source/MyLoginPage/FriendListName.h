@@ -14,4 +14,6 @@ class MYLOGINPAGE_API UFriendListName : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+
 };

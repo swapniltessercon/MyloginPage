@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+
 #include "LoginWidget.generated.h"
 
 
@@ -45,11 +46,27 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 		class UEditableTextBox* PassWordEditableTextBox;
 
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidgetSwitcher* LoginSwitcher;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidget* FriendPageWidget;
+
+	UPROPERTY(meta = (BindWidget))
+		class UPanelWidget* FriendList;
+	
+
+
 	UFUNCTION()
 	   void OnLoginButtonClicked();
 
 	void NativeConstruct() override;
 
 private:
+	
 	TSubclassOf<class UUserWidget> LoginClass;
+	/*TSubclassOf<class UUserWidget> FriendListClass;*/
+
+	class  ULoginMenuWidget* FriendMenu;
 };

@@ -12,6 +12,7 @@ ALoginPageHUD::ALoginPageHUD()
 	{
 	LoginClass = LoginBPClass.Class;
 	}
+
 }
 
 void ALoginPageHUD::BeginPlay()
