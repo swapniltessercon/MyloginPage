@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "FriendListName.generated.h"
 
 /**
@@ -13,7 +14,10 @@ UCLASS()
 class MYLOGINPAGE_API UFriendListName : public UUserWidget
 {
 	GENERATED_BODY()
+public:
 	
+		UPROPERTY(meta = (BindWidget))
+		class UTextBlock* FriendName;
 
 
 };
