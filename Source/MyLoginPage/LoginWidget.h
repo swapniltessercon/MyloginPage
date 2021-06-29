@@ -21,6 +21,7 @@ class MYLOGINPAGE_API ULoginWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+
 //public:
 //		TMap<FString, UserData> UserMap;
 //

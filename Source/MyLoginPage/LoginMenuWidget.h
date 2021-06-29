@@ -27,15 +27,18 @@ public:
 
 public:
 	TMap<FString, UserData> UserMap;
+	void SelectIndex(uint32 Index);
+	//uint32 Index;
 
 protected:
 	//virtual void BeginPlay() override;
 	virtual bool Initialize() override;
 	void InitializeDummyUserLoginCredential();
     void SetFriendList();
+	//void SelectIndex(uint32 Index);
 
 	uint32 Size;
-	uint32 Index;
+	//uint32 Index;
 
 	
 
@@ -44,6 +47,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* ErrorMessage;
+
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* UserLoginName;
 
@@ -76,6 +80,9 @@ private:
 	TSubclassOf<class UUserWidget> FriendListClass;
 
 	
-
+	TSubclassOf<class UUserWidget> FriendChatClass;
+	TOptional<uint32> SelectedIndex;
+	UPROPERTY()
+		UUserWidget* Widget;
 
 };

@@ -15,9 +15,27 @@ class MYLOGINPAGE_API UFriendListName : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+
+		void Setup(class ULoginMenuWidget* Parent, uint32 Index);
 	
 		UPROPERTY(meta = (BindWidget))
 		class UTextBlock* FriendName;
+
+	
+private:
+
+	
+	UPROPERTY(meta = (BindWidget))
+		class UButton* FriendButton;
+
+	UPROPERTY()
+		class ULoginMenuWidget* Parent;
+
+
+	uint32 Index;
+
+	UFUNCTION()
+		void OnClicked();
 
 
 };

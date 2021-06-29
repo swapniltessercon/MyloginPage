@@ -17,6 +17,12 @@ ULoginMenuWidget::ULoginMenuWidget()
 	if (!ensure(FriendListBPClass.Class != nullptr)) return;
 	FriendListClass = FriendListBPClass.Class;
 	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendListClass->GetName());
+
+
+	ConstructorHelpers::FClassFinder<UUserWidget> FriendChatBPClass(TEXT("/Game/LoginScreen/WBP_ChatWindow"));
+	if (!ensure(FriendChatBPClass.Class != nullptr)) return;
+	FriendChatClass = FriendChatBPClass.Class;
+	//UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendChatClass->GetName());
 }
 
 
@@ -89,6 +95,7 @@ void ULoginMenuWidget::SetFriendList() {
 	UserLoginName->SetText(FText::FromString(Username));
 	
 	if (!ensure(FriendListClass != nullptr)) return;
+	uint32 i = 0;
 
 	for (auto It = UserMap.CreateConstIterator(); It; ++It)
 	{
@@ -96,15 +103,21 @@ void ULoginMenuWidget::SetFriendList() {
 		if (!ensure(FriendRow != nullptr)) return;
 
 		FriendRow->FriendName->SetText(FText::FromString(It.Key()));
-
+		FriendRow->Setup(this, i);
+		++i;
 		FriendList->AddChild(FriendRow);
 	}
-
-	
-
-
 }
 
+
+void ULoginMenuWidget::SelectIndex(uint32 Index)
+{
+	SelectedIndex = Index;
+	UE_LOG(LogTemp, Warning, TEXT("Selected index %d."), SelectedIndex.GetValue());
+	if (!ensure(FriendChatClass != nullptr)) return;
+	Widget = CreateWidget(GetWorld(), FriendChatClass);
+	Widget ->AddToViewport();
+}
 
 
 
