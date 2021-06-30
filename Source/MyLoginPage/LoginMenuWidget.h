@@ -27,7 +27,9 @@ public:
 
 public:
 	TMap<FString, UserData> UserMap;
-	void SelectIndex(uint32 Index);
+	void SelectIndex(uint32 Index ,FString);
+	/*UFUNCTION()
+	void OnSetImage(UTexture2DDynamic* Texture);*/
 	//uint32 Index;
 
 protected:

@@ -5,7 +5,9 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 #include "Components/EditableTextBox.h"
+#include "Blueprint/AsyncTaskDownloadImage.h"
 #include "Components/TextBlock.h"
 #include "FriendListName.h"
 
@@ -22,14 +24,14 @@ ULoginMenuWidget::ULoginMenuWidget()
 	ConstructorHelpers::FClassFinder<UUserWidget> FriendChatBPClass(TEXT("/Game/LoginScreen/WBP_ChatWindow"));
 	if (!ensure(FriendChatBPClass.Class != nullptr)) return;
 	FriendChatClass = FriendChatBPClass.Class;
+	
+	
+
 	//UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendChatClass->GetName());
 }
 
-
-//void ULoginMenuWidget::NativeConstruct()
-//{
-	//Super::NativeConstruct();
-bool ULoginMenuWidget::Initialize() {
+bool ULoginMenuWidget::Initialize() 
+{
 
 
 	bool Success = Super::Initialize();
@@ -50,7 +52,10 @@ void ULoginMenuWidget::InitializeDummyUserLoginCredential()
 	UserMap.Add("swap", EData);
 	//EData.UserName = "xyz";
 	EData.PassWord = "1234";
-	UserMap.Add("xyz", EData);
+	UserMap.Add("Ronaldo", EData);
+	EData.PassWord = "1245";
+	UserMap.Add("Messi", EData);
+
 
 }
 
@@ -67,57 +72,69 @@ void ULoginMenuWidget::OnLoginButtonClicked()
 		if (Password == FoundUserData->PassWord)
 		{
 			ErrorMessage->SetText(FText::FromString("login SuccessFully"));
-
-
 			if (!ensure(LoginSwitcher != nullptr)) return;
 			if (!ensure(FriendPageWidget != nullptr)) return;
 			LoginSwitcher->SetActiveWidget(FriendPageWidget);
 			SetFriendList();
-
 		}
 		else
 		{
 			ErrorMessage->SetText(FText::FromString("Please Enter The Correct Password "));
+			PassWordEditableTextBox->SetText(FText::FromString(""));
+			UserNameEditableTextBox->SetText(FText::FromString(""));
 		}
 	}
 	else
 	{
 		ErrorMessage->SetText(FText::FromString("Please Enter The Correct UserName "));
+		PassWordEditableTextBox->SetText(FText::FromString(""));
+		UserNameEditableTextBox->SetText(FText::FromString(""));
 	}
 }
 
 
-void ULoginMenuWidget::SetFriendList() {
-
+void ULoginMenuWidget::SetFriendList() 
+{
 	UWorld* World = this->GetWorld();
 	if (!ensure(World != nullptr)) return;
 	FString Username = UserNameEditableTextBox->GetText().ToString();
 	UserLoginName->SetText(FText::FromString(Username));
-	
 	if (!ensure(FriendListClass != nullptr)) return;
 	uint32 i = 0;
-
 	for (auto It = UserMap.CreateConstIterator(); It; ++It)
 	{
-		UFriendListName* FriendRow = CreateWidget<UFriendListName>(World, FriendListClass);
-		if (!ensure(FriendRow != nullptr)) return;
-
-		FriendRow->FriendName->SetText(FText::FromString(It.Key()));
-		FriendRow->Setup(this, i);
-		++i;
-		FriendList->AddChild(FriendRow);
+		if (Username != It.Key())
+		{
+			UFriendListName* FriendRow = CreateWidget<UFriendListName>(World, FriendListClass);
+			if (!ensure(FriendRow != nullptr)) return;
+			FriendRow->FriendName->SetText(FText::FromString(It.Key()));
+			FriendRow->Setup(this, i);
+			++i;
+			FriendList->AddChild(FriendRow);
+		}
 	}
 }
 
 
-void ULoginMenuWidget::SelectIndex(uint32 Index)
+void ULoginMenuWidget::SelectIndex(uint32 Index, FString FrndName)
 {
 	SelectedIndex = Index;
 	UE_LOG(LogTemp, Warning, TEXT("Selected index %d."), SelectedIndex.GetValue());
 	if (!ensure(FriendChatClass != nullptr)) return;
 	Widget = CreateWidget(GetWorld(), FriendChatClass);
-	Widget ->AddToViewport();
+	Widget->AddToViewport();
 }
 
+
+//void ULoginMenuWidget::OnSetImage(UTexture2DDynamic* Texture)
+//{
+//
+//	UE_LOG(LogTemp, Warning, TEXT("onsetImage"));
+//	UWorld* World = this->GetWorld();
+//	if (!ensure(World != nullptr)) return;
+//	UFriendListName* FriendRow = CreateWidget<UFriendListName>(World, FriendListClass);
+//	FriendRow->FriendImage->SetBrushFromTextureDynamic(Texture);
+////	FriendList->AddChild(FriendRow);
+//}
 
 

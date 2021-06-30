@@ -21,6 +21,15 @@ public:
 		UPROPERTY(meta = (BindWidget))
 		class UTextBlock* FriendName;
 
+		UPROPERTY(meta = (BindWidget))
+			class UImage* FriendImage;
+
+		UFUNCTION()
+			void OnSetImage(UTexture2DDynamic* Texture);
+
+	
+
+
 	
 private:
 
@@ -32,10 +41,11 @@ private:
 		class ULoginMenuWidget* Parent;
 
 
+
 	uint32 Index;
 
 	UFUNCTION()
-		void OnClicked();
+		void OnFriendButtonClicked();
 
 
 };

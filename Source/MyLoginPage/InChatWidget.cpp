@@ -35,22 +35,18 @@ bool UInChatWidget::Initialize() {
 
 void UInChatWidget::OnSendMessageButtonClicked()
 {
-//FString UserMessage = UserMessageEditableTextBox->GetText().ToString();
 
-	UE_LOG(LogTemp, Warning, TEXT("Found sendButton"))
-	//MessageMultiLineEditableTextBox->SetText(FText::FromString(UserMessage));
-
-		UWorld* World = this->GetWorld();
+    UWorld* World = this->GetWorld();
 	if (!ensure(World != nullptr)) return;
 	FString UserMessage = UserMessageEditableTextBox->GetText().ToString();
 
-	UMessageChatWidget* MessageRow = CreateWidget<UMessageChatWidget>(World, ChatListClass);
-	if (!ensure(MessageRow != nullptr)) return;
-
-
-	 MessageRow->UserMessage->SetText(FText::FromString(*UserMessage));
-	 UserMessageEditableTextBox->SetText(FText::FromString(""));
-    
-	MessageChatBox->AddChild(MessageRow);
-
+	if (!UserMessage.IsEmpty())
+	{
+		UMessageChatWidget* MessageRow = CreateWidget<UMessageChatWidget>(World, ChatListClass);
+		if (!ensure(MessageRow != nullptr)) return;
+		MessageRow->UserMessage->SetText(FText::FromString(*UserMessage));
+	   
+		UserMessageEditableTextBox->SetText(FText::FromString(""));
+		MessageChatBox->AddChild(MessageRow);
+	}
 }
