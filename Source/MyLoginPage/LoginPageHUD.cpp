@@ -3,14 +3,16 @@
 
 #include "LoginPageHUD.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
+#include "LoginWidget.h"
 
 
 ALoginPageHUD::ALoginPageHUD()
 {
-    ConstructorHelpers::FClassFinder<UUserWidget> LoginBPClass(TEXT("/Game/WBP_loginWidget"));
+    ConstructorHelpers::FClassFinder<ULoginWidget> LoginBPClass(TEXT("/Game/WBP_loginWidget"));
 	if (LoginBPClass.Class != NULL)
 	{
-	LoginClass = LoginBPClass.Class;
+		LoginWidgetClass = LoginBPClass.Class;
 	}
 
 }
@@ -21,10 +23,13 @@ void ALoginPageHUD::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("found HUDClass..."))
 
-	if (!ensure(LoginClass != nullptr)) return;
-	Widget = CreateWidget(GetWorld(),LoginClass);
+	if (!ensure(LoginWidgetClass != nullptr)) return;
+	loginWidget = CreateWidget<ULoginWidget>(GetWorld(), LoginWidgetClass);
+	if (!ensure(loginWidget != nullptr)) return;
+	loginWidget->AddToViewport();
+	loginWidget->UserSetup();
+	
+	
 
-	if (!ensure(Widget != nullptr)) return;
-	Widget->AddToViewport();
 
 }

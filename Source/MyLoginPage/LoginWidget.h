@@ -4,15 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-
 #include "LoginWidget.generated.h"
 
 
-//struct UserData
-//{
-//	//FString UserName;
-//	FString PassWord;
-//};
+
 /**
  * 
  */
@@ -21,7 +16,8 @@ class MYLOGINPAGE_API ULoginWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-
+public:
+	void UserSetup();
 //public:
 //		TMap<FString, UserData> UserMap;
 //

@@ -14,12 +14,12 @@ UCLASS()
 class MYLOGINPAGE_API UFriendListName : public UUserWidget
 {
 	GENERATED_BODY()
-public:
 
+public:
 		void Setup(class ULoginMenuWidget* Parent, uint32 Index);
 	
 		UPROPERTY(meta = (BindWidget))
-		class UTextBlock* FriendName;
+			class UTextBlock* FriendName;
 
 		UPROPERTY(meta = (BindWidget))
 			class UImage* FriendImage;
@@ -27,25 +27,16 @@ public:
 		UFUNCTION()
 			void OnSetImage(UTexture2DDynamic* Texture);
 
-	
-
-
-	
 private:
 
-	
-	UPROPERTY(meta = (BindWidget))
-		class UButton* FriendButton;
+	    uint32 Index;
+		UPROPERTY(meta = (BindWidget))
+			class UButton* FriendButton;
 
-	UPROPERTY()
-		class ULoginMenuWidget* Parent;
+		UPROPERTY()
+			class ULoginMenuWidget* Parent;
 
-
-
-	uint32 Index;
-
-	UFUNCTION()
-		void OnFriendButtonClicked();
-
+		UFUNCTION()
+			void OnFriendButtonClicked();
 
 };

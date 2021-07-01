@@ -10,36 +10,34 @@
 #include "Blueprint/AsyncTaskDownloadImage.h"
 #include "Components/TextBlock.h"
 #include "FriendListName.h"
+#include "HttpModule.h"
+#include "Http.h"
+#include "Json.h"
+#include "Interfaces/IHttpRequest.h"
 
 
-ULoginMenuWidget::ULoginMenuWidget()
+
+
+ULoginMenuWidget::ULoginMenuWidget(const FObjectInitializer& ObjectInitializer)
 {
 
 	ConstructorHelpers::FClassFinder<UUserWidget> FriendListBPClass(TEXT("/Game/LoginScreen/WBP_FriendRow"));
 	if (!ensure(FriendListBPClass.Class != nullptr)) return;
 	FriendListClass = FriendListBPClass.Class;
-	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendListClass->GetName());
-
+//	UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendListClass->GetName());
 
 	ConstructorHelpers::FClassFinder<UUserWidget> FriendChatBPClass(TEXT("/Game/LoginScreen/WBP_ChatWindow"));
 	if (!ensure(FriendChatBPClass.Class != nullptr)) return;
 	FriendChatClass = FriendChatBPClass.Class;
-	
-	
-
-	//UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *FriendChatClass->GetName());
 }
 
 bool ULoginMenuWidget::Initialize() 
 {
-
-
 	bool Success = Super::Initialize();
+	HTTPFunction();
 	UE_LOG(LogTemp, Warning, TEXT("Found class"))
 	InitializeDummyUserLoginCredential();
 
-	if (!ensure(LoginButton != nullptr)) return false;
-	LoginButton->OnClicked.AddDynamic(this, &ULoginMenuWidget::OnLoginButtonClicked);
 	return true;
 }
 
@@ -47,16 +45,12 @@ bool ULoginMenuWidget::Initialize()
 void ULoginMenuWidget::InitializeDummyUserLoginCredential()
 {
 	UserData EData;
-	//EData.UserName = "swap";
 	EData.PassWord = "123";
 	UserMap.Add("swap", EData);
-	//EData.UserName = "xyz";
 	EData.PassWord = "1234";
 	UserMap.Add("Ronaldo", EData);
 	EData.PassWord = "1245";
 	UserMap.Add("Messi", EData);
-
-
 }
 
 void ULoginMenuWidget::OnLoginButtonClicked()
@@ -95,12 +89,13 @@ void ULoginMenuWidget::OnLoginButtonClicked()
 
 void ULoginMenuWidget::SetFriendList() 
 {
-	UWorld* World = this->GetWorld();
+	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 	FString Username = UserNameEditableTextBox->GetText().ToString();
 	UserLoginName->SetText(FText::FromString(Username));
 	if (!ensure(FriendListClass != nullptr)) return;
 	uint32 i = 0;
+	
 	for (auto It = UserMap.CreateConstIterator(); It; ++It)
 	{
 		if (Username != It.Key())
@@ -116,14 +111,49 @@ void ULoginMenuWidget::SetFriendList()
 }
 
 
-void ULoginMenuWidget::SelectIndex(uint32 Index, FString FrndName)
+void ULoginMenuWidget::SelectIndex(uint32 Index)
 {
 	SelectedIndex = Index;
 	UE_LOG(LogTemp, Warning, TEXT("Selected index %d."), SelectedIndex.GetValue());
 	if (!ensure(FriendChatClass != nullptr)) return;
-	Widget = CreateWidget(GetWorld(), FriendChatClass);
-	Widget->AddToViewport();
+	FriendChatWidget = CreateWidget(GetWorld(), FriendChatClass);
+	if (FriendChatWidget != nullptr) {
+		FriendChatWidget->AddToViewport();
+	}
+
+	
 }
+
+
+void ULoginMenuWidget::HTTPFunction()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Selected HTTP"))
+	FString HttpUrl = TEXT("https://matrix-client.matrix.org/_matrix/client/r0/login");
+	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	HttpRequest->OnProcessRequestComplete().BindUObject(this, &ULoginMenuWidget::OnResponseReceived);
+	HttpRequest->SetURL(HttpUrl);
+	HttpRequest->SetVerb("POST");
+    HttpRequest->SetHeader("Content-Type", "application/json");
+	HttpRequest->SetContentAsString("{\"type\":\"m.login.password\", \"user\":\"swapnil_tessercon\", \"password\":\"8bvDhCd7idq4y$P\"}");
+	HttpRequest->ProcessRequest();
+}
+
+void ULoginMenuWidget::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	UE_LOG(LogTemp, Warning, TEXT("HTTPResponse for login .. %s"), *Response->GetContentAsString());
+	FString  CollectResponseValue = *Response->GetContentAsString();	
+	int32 code = Response->GetResponseCode();
+	if (code == 200)
+		{
+			if (LoginButton != nullptr)
+			{
+				LoginButton->OnClicked.AddDynamic(this, &ULoginMenuWidget::OnLoginButtonClicked);
+			}
+		}
+	
+}
+
+
 
 
 //void ULoginMenuWidget::OnSetImage(UTexture2DDynamic* Texture)

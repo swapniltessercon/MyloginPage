@@ -16,7 +16,7 @@ class MYLOGINPAGE_API UInChatWidget : public ULoginWidget
 
 public:
 	UInChatWidget();
-	//void SetFriendName(FString SelectedFriendName);
+	
 protected:
 	virtual bool Initialize() override;
 
@@ -26,15 +26,13 @@ protected:
 private:
 
 	TSharedPtr<SImage> MyImage;
-
 	TSubclassOf<class UUserWidget> ChatListClass;
+
 	UPROPERTY(meta = (BindWidget))
 		class UButton* SendMessageButton;
 
     UPROPERTY(meta = (BindWidget))
 	    class UEditableTextBox* UserMessageEditableTextBox;
-	
-	
 
 	UPROPERTY(meta = (BindWidget))
 		class UPanelWidget* MessageChatBox;
