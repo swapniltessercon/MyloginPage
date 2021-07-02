@@ -67,13 +67,12 @@ void ULoginMenuWidget::OnLoginButtonClicked()
 	HttpRequest->SetURL(HttpUrl);
 	HttpRequest->SetVerb("POST");
 	HttpRequest->SetHeader("Content-Type", "application/json");
-	FString UserLoginJsonBody = FString::Printf(TEXT("{\"type\":\"m.login.password\", \"user\":\"%s\", \"password\":\"8bvDhCd7idq4y$P\"}"), *Username);
+	FString UserLoginJsonBody = FString::Printf(TEXT("{\"type\":\"m.login.password\", \"user\":\"%s\", \"password\":\"%s\"}"), *Username , *Password);
 	
 	//HttpRequest->SetContentAsString("{\"type\":\"m.login.password\", \"user\":\"swapnil_tessercon\", \"password\":\"8bvDhCd7idq4y$P\"}");
 	UE_LOG(LogTemp, Warning, TEXT("ULoginMenuWidget::OnLoginButtonClicked  Login =  .. %s"),*UserLoginJsonBody)
 	HttpRequest->SetContentAsString(UserLoginJsonBody);
 	HttpRequest->ProcessRequest();
-
 }
 
 void ULoginMenuWidget::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
@@ -87,8 +86,8 @@ void ULoginMenuWidget::OnResponseReceived(FHttpRequestPtr Request, FHttpResponse
 
 		if (FJsonSerializer::Deserialize(Reader, JsonObject))
 		{
-			AccessToken1 = JsonObject->GetStringField(TEXT("access_token"));
-			UE_LOG(LogTemp, Warning, TEXT("HTTPResponse for login .. %s"), *AccessToken1);
+			LoginAccessToken = JsonObject->GetStringField(TEXT("access_token"));
+			UE_LOG(LogTemp, Warning, TEXT("HTTPResponse for login .. %s"), *LoginAccessToken);
 		}
 
 		if (LoginButton != nullptr)
@@ -128,9 +127,9 @@ void ULoginMenuWidget::SetFriendList()
 }
 
 
-void ULoginMenuWidget::SelectIndex(uint32 Index)
+void ULoginMenuWidget::SelectIndex(uint32 Index ,FString InGetName)
 {
-
+	FriendChatName = InGetName;
 	if (FriendChatWidget != nullptr)
 	{
 		FriendChatWidget->RemoveFromViewport();
@@ -146,26 +145,24 @@ void ULoginMenuWidget::SelectIndex(uint32 Index)
 		UInChatWidget* FriendChatWidgetActual = Cast<UInChatWidget>(FriendChatWidget);
 		if (FriendChatWidgetActual != nullptr)
 		{
-			FriendChatWidgetActual->SetupInChatWidget(this);
+			FriendChatWidgetActual->SetupInChatWidget(this,FriendChatName);
 			FriendChatWidgetActual->AddToViewport();
 		}
 	}
 }
 
 
-
-
 void ULoginMenuWidget::FriendMessageSend(FString FrndMessge)
 {
 	UE_LOG(LogTemp, Warning, TEXT("HTTPResponse for login .. %s"), *FrndMessge)
-	UE_LOG(LogTemp, Warning, TEXT("ULoginMenuWidget::FriendMessageSend  AccessToken =  .. %s"), *AccessToken1)
+	UE_LOG(LogTemp, Warning, TEXT("ULoginMenuWidget::FriendMessageSend  AccessToken =  .. %s"), *LoginAccessToken)
 
 	FString HttpAccessTokenUrl = TEXT("https://matrix-client.matrix.org/_matrix/client/r0/rooms/!hikUCgTbSkfhynJAnG:matrix.org/send/m.room.message?access_token=");
-	HttpAccessTokenUrl += AccessToken1;
+	HttpAccessTokenUrl += LoginAccessToken;
 
 	UE_LOG(LogTemp, Warning, TEXT("ULoginMenuWidget::FriendMessageSend  AccessTokenURL =  .. %s"), *HttpAccessTokenUrl)
 	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
-	HttpRequest->OnProcessRequestComplete().BindUObject(this, &ULoginMenuWidget::OnMessageResponseReceived);
+	//HttpRequest->OnProcessRequestComplete().BindUObject(this, &ULoginMenuWidget::OnMessageResponseReceived);
 	HttpRequest->SetURL(HttpAccessTokenUrl);
 	HttpRequest->SetVerb("POST");
 	HttpRequest->SetHeader("Content-Type", "application/json");
@@ -175,12 +172,7 @@ void ULoginMenuWidget::FriendMessageSend(FString FrndMessge)
 	HttpRequest->ProcessRequest();
 }
 
-void ULoginMenuWidget::OnMessageResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
-{
-	
 
-
-}
 
 
 

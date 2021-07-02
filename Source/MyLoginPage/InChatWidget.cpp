@@ -22,9 +22,12 @@ UInChatWidget::UInChatWidget(const FObjectInitializer& ObjectInitializer)
 
 }
 
-void UInChatWidget::SetupInChatWidget(ULoginMenuWidget* InParent)
+void UInChatWidget::SetupInChatWidget(ULoginMenuWidget* InParent, FString GetFrndName)
 {
 	LoginParent = InParent;
+	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFrndName);
+	FrndName->SetText(FText::FromString(GetFrndName));
+
 }
 
 

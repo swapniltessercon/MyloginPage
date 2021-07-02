@@ -25,9 +25,9 @@ void UFriendListName::Setup(class ULoginMenuWidget* InParent, uint32 InIndex)
 void UFriendListName::OnFriendButtonClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %d"), Index);
-	/*FString GetFriendName= FriendName->GetText().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFriendName);*/
-	Parent->SelectIndex(Index);
+	FString GetFriendName= FriendName->GetText().ToString();
+	//UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFriendName);*/
+	Parent->SelectIndex(Index,GetFriendName);
 
 }
 

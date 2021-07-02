@@ -16,7 +16,7 @@ class MYLOGINPAGE_API UInChatWidget : public ULoginWidget
 
 public:
 	UInChatWidget(const FObjectInitializer& ObjectInitializer);
-    void SetupInChatWidget(class ULoginMenuWidget* InParent);
+    void SetupInChatWidget(class ULoginMenuWidget* InParent, FString GetFrndName);
 	
 
 	
@@ -36,6 +36,9 @@ private:
 
     UPROPERTY(meta = (BindWidget))
 	    class UEditableTextBox* UserMessageEditableTextBox;
+
+	UPROPERTY(meta = (BindWidget))
+		class UTextBlock* FrndName;
 
 	UPROPERTY(meta = (BindWidget))
 		class UPanelWidget* MessageChatBox;
