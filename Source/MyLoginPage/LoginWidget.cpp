@@ -22,63 +22,7 @@ void ULoginWidget::UserSetup()
 	PlayerController->bShowMouseCursor = true;
 }
 
-//void ULoginWidget::NativeConstruct()
-//{
-//	Super::NativeConstruct();
-//   
-//	InitializeDummyUserLoginCredential();
-//	
-//	if (!ensure(LoginButton != nullptr)) return;
-//	LoginButton->OnClicked.AddUniqueDynamic(this, &ULoginWidget::OnLoginButtonClicked);
-//}
-//
-//
-//void ULoginWidget::InitializeDummyUserLoginCredential()
-//{
-//	UserData EData;
-//	//EData.UserName = "swap";
-//	EData.PassWord = "123";
-//	UserMap.Add("swap", EData);
-//	//EData.UserName = "xyz";
-//	EData.PassWord = "1234";
-//	UserMap.Add("xyz", EData);
-//
-//}
-//
-//void ULoginWidget::OnLoginButtonClicked()
-//{
-//	if (!ensure(UserNameEditableTextBox != nullptr)) return;
-//	 FString Username = UserNameEditableTextBox->GetText().ToString();
-//	if (!ensure(PassWordEditableTextBox != nullptr)) return;
-//	 const FString& Password = PassWordEditableTextBox->GetText().ToString();
-//
-//	 UserData* FoundUserData = UserMap.Find(Username);	 
-//	 if (FoundUserData != nullptr)
-//	 {	    
-//	    		 if (Password == FoundUserData->PassWord)
-//				 {
-//					 ErrorMessage->SetText(FText::FromString("login SuccessFully"));
-//
-//
-//					 if (!ensure(LoginSwitcher != nullptr)) return;
-//					 if (!ensure(FriendPageWidget != nullptr)) return;
-//					 LoginSwitcher->SetActiveWidget(FriendPageWidget);
-//					 if (!ensure(FriendMenu != nullptr)) return;
-//
-//					
-//					
-//					 
-//				 }
-//				 else 
-//				 {
-//					 ErrorMessage->SetText(FText::FromString("Please Enter The Correct Password "));
-//				 }	 
-//	 }
-//	 else
-//	 {
-//		ErrorMessage->SetText(FText::FromString("Please Enter The Correct UserName "));
-//	 }
-//}
+
 
 	
    

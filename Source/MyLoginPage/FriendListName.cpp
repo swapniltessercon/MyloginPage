@@ -25,15 +25,15 @@ void UFriendListName::Setup(class ULoginMenuWidget* InParent, uint32 InIndex)
 void UFriendListName::OnFriendButtonClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %d"), Index);
-	//Parent->SelectIndex(Index);
-	FString GetFriendName= FriendName->GetText().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFriendName);
+	/*FString GetFriendName= FriendName->GetText().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFriendName);*/
 	Parent->SelectIndex(Index);
+
 }
 
 
 void UFriendListName::OnSetImage(UTexture2DDynamic* Texture)
 {
-	UE_LOG(LogTemp, Warning, TEXT("onsetImage"));
+	UE_LOG(LogTemp, Warning, TEXT("OsetImageCheck....%d"), Index);
 	FriendImage->SetBrushFromTextureDynamic(Texture);
 }

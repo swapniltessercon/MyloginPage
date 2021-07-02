@@ -15,7 +15,10 @@ class MYLOGINPAGE_API UInChatWidget : public ULoginWidget
 	GENERATED_BODY()
 
 public:
-	UInChatWidget();
+	UInChatWidget(const FObjectInitializer& ObjectInitializer);
+    void SetupInChatWidget(class ULoginMenuWidget* InParent);
+	
+
 	
 protected:
 	virtual bool Initialize() override;
@@ -36,5 +39,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 		class UPanelWidget* MessageChatBox;
+
+	    class ULoginMenuWidget* LoginParent;
 	
 };

@@ -28,8 +28,4 @@ void ALoginPageHUD::BeginPlay()
 	if (!ensure(loginWidget != nullptr)) return;
 	loginWidget->AddToViewport();
 	loginWidget->UserSetup();
-	
-	
-
-
 }

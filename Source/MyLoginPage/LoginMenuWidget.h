@@ -28,13 +28,11 @@ public:
 
 	TMap<FString, UserData> UserMap;
 	void SelectIndex(uint32 Index);
+	FString AccessToken1;
+    void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	void FriendMessageSend(FString FrndMessge);
+	void OnMessageResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	//UFUNCTION()
-		void HTTPFunction();
-
-	//UFUNCTION()
-		void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
-	
 protected:
 	virtual bool Initialize() override;
 	void InitializeDummyUserLoginCredential();
