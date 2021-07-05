@@ -15,6 +15,7 @@ class MYLOGINPAGE_API UMessageChatWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-		UPROPERTY(meta = (BindWidget))
-		class UTextBlock* UserMessage;
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* UserMessage;
+	
 };

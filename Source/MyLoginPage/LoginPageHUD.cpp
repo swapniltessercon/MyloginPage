@@ -20,9 +20,7 @@ ALoginPageHUD::ALoginPageHUD()
 void ALoginPageHUD::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("found HUDClass..."))
-
+	UE_LOG(LogTemp, Warning, TEXT("ALoginPageHUD::BeginPlay Found HUDClass "))
 	if (!ensure(LoginWidgetClass != nullptr)) return;
 	loginWidget = CreateWidget<ULoginWidget>(GetWorld(), LoginWidgetClass);
 	if (!ensure(loginWidget != nullptr)) return;

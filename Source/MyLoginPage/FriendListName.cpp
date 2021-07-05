@@ -15,18 +15,17 @@ void UFriendListName::Setup(class ULoginMenuWidget* InParent, uint32 InIndex)
 {
 	Parent = InParent;
 	Index = InIndex;
-	FString mURL = TEXT("https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/128x128/shadow/businessman.png");
+	FString ImageURL = TEXT("https://d1nhio0ox7pgb.cloudfront.net/_img/v_collection_png/128x128/shadow/businessman.png");
 	UAsyncTaskDownloadImage* ImageDownloadTask = NewObject<UAsyncTaskDownloadImage>();
 	ImageDownloadTask->OnSuccess.AddDynamic(this, &UFriendListName::OnSetImage);
-	ImageDownloadTask->Start(mURL);
+	ImageDownloadTask->Start(ImageURL);
 	FriendButton->OnClicked.AddDynamic(this, &UFriendListName::OnFriendButtonClicked);
 }
 
 void UFriendListName::OnFriendButtonClicked()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %d"), Index);
+	UE_LOG(LogTemp, Warning, TEXT("UFriendListName::OnFriendButtonClicked Found OnClicked= %d"), Index);
 	FString GetFriendName= FriendName->GetText().ToString();
-	//UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFriendName);*/
 	Parent->SelectIndex(Index,GetFriendName);
 
 }
@@ -34,6 +33,6 @@ void UFriendListName::OnFriendButtonClicked()
 
 void UFriendListName::OnSetImage(UTexture2DDynamic* Texture)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OsetImageCheck....%d"), Index);
+	UE_LOG(LogTemp, Warning, TEXT("UFriendListName::OnSetImage OsetImageCheck=%d"), Index);
 	FriendImage->SetBrushFromTextureDynamic(Texture);
 }

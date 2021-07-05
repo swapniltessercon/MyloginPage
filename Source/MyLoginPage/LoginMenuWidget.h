@@ -32,7 +32,7 @@ public:
 	FString FriendChatName;
     void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 	void FriendMessageSend(FString FrndMessge);
-	//void OnMessageResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	void OnMessageResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 protected:
 	virtual bool Initialize() override;
@@ -41,41 +41,43 @@ protected:
 	
 	
 	UPROPERTY(meta = (BindWidget))
-		class UButton* LoginButton;
+	class UButton* LoginButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UTextBlock* ErrorMessage;
+	class UTextBlock* ErrorMessage;
 
 	UPROPERTY(meta = (BindWidget))
-		class UTextBlock* UserLoginName;
+	class UTextBlock* UserLoginName;
 
 	UPROPERTY(meta = (BindWidget))
-		class UEditableTextBox* UserNameEditableTextBox;
+	class UEditableTextBox* UserNameEditableTextBox;
 
 	UPROPERTY(meta = (BindWidget))
-		class UEditableTextBox* PassWordEditableTextBox;
+	class UEditableTextBox* PassWordEditableTextBox;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWidgetSwitcher* LoginSwitcher;
+	class UWidgetSwitcher* LoginSwitcher;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWidget* FriendPageWidget;
+	class UWidget* FriendPageWidget;
 
 	UPROPERTY(meta = (BindWidget))
-		class UPanelWidget* FriendList;
+	class UPanelWidget* FriendList;
 
 	UFUNCTION()
-		void OnLoginButtonClicked();
+	void OnLoginButtonClicked();
 
 
 private:
 	TSubclassOf<class UUserWidget> FriendListClass;
 	TSubclassOf<class UUserWidget> FriendChatClass;
+
 	TOptional<uint32> SelectedIndex;
 
 	class ULoginWidget* LoginMenu;
-	
-	UPROPERTY()
-		UUserWidget* FriendChatWidget;
 
+	UPROPERTY()
+	UUserWidget* FriendChatWidget;
+
+	TSubclassOf<class UUserWidget> ChatListClass;
 };

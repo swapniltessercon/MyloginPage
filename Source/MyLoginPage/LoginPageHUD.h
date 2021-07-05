@@ -15,9 +15,11 @@ class MYLOGINPAGE_API ALoginPageHUD : public AHUD
 {
 	GENERATED_BODY()
 public:
-		ALoginPageHUD();
+	ALoginPageHUD();
+
 protected:
 	virtual void BeginPlay() override;
+
 private:
 	TSubclassOf<UUserWidget> LoginWidgetClass;
 	class ULoginWidget* loginWidget;

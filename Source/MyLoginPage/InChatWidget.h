@@ -17,32 +17,30 @@ class MYLOGINPAGE_API UInChatWidget : public ULoginWidget
 public:
 	UInChatWidget(const FObjectInitializer& ObjectInitializer);
     void SetupInChatWidget(class ULoginMenuWidget* InParent, FString GetFrndName);
-	
+	void SendMessagetowidget();
 
+	UPROPERTY(meta = (BindWidget))
+	class UPanelWidget* MessageChatBox;
+
+	class UMessageChatWidget* MessageRow;
 	
 protected:
 	virtual bool Initialize() override;
-
 	UFUNCTION()
-		void OnSendMessageButtonClicked();
+	void OnSendMessageButtonClicked();
 
 private:
-
-	TSharedPtr<SImage> MyImage;
 	TSubclassOf<class UUserWidget> ChatListClass;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* SendMessageButton;
+	class UButton* SendMessageButton;
 
     UPROPERTY(meta = (BindWidget))
-	    class UEditableTextBox* UserMessageEditableTextBox;
+	class UEditableTextBox* UserMessageEditableTextBox;
 
 	UPROPERTY(meta = (BindWidget))
-		class UTextBlock* FrndName;
+	class UTextBlock* FrndName;
 
-	UPROPERTY(meta = (BindWidget))
-		class UPanelWidget* MessageChatBox;
+	class ULoginMenuWidget* LoginParent;
 
-	    class ULoginMenuWidget* LoginParent;
-	
 };

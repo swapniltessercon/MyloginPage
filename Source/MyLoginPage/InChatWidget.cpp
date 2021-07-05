@@ -22,12 +22,11 @@ UInChatWidget::UInChatWidget(const FObjectInitializer& ObjectInitializer)
 
 }
 
-void UInChatWidget::SetupInChatWidget(ULoginMenuWidget* InParent, FString GetFrndName)
+void UInChatWidget::SetupInChatWidget(ULoginMenuWidget* InParent, FString GetFrndName )
 {
 	LoginParent = InParent;
-	UE_LOG(LogTemp, Warning, TEXT("Found OnClicked %s"), *GetFrndName);
+	UE_LOG(LogTemp, Warning, TEXT("UInChatWidget::SetupInChatWidget Found FrndName= %s"), *GetFrndName);
 	FrndName->SetText(FText::FromString(GetFrndName));
-
 }
 
 
@@ -36,7 +35,6 @@ bool UInChatWidget::Initialize() {
 
 	bool Success = Super::Initialize();
 	if (!Success) return false;
-
 	if (!ensure(SendMessageButton != nullptr)) return false;
 	SendMessageButton->OnClicked.AddDynamic(this, &UInChatWidget::OnSendMessageButtonClicked);
 	return true;
@@ -44,21 +42,23 @@ bool UInChatWidget::Initialize() {
 
 void UInChatWidget::OnSendMessageButtonClicked()
 {
-
     UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 	FString UserMessage = UserMessageEditableTextBox->GetText().ToString();
-
 	if (!UserMessage.IsEmpty())
 	{
-		UMessageChatWidget* MessageRow = CreateWidget<UMessageChatWidget>(World, ChatListClass);
-		if (!ensure(MessageRow != nullptr)) return;	
-
 		if (!ensure(LoginParent != nullptr)) return;
 		LoginParent->FriendMessageSend(UserMessage);
-
-		MessageRow->UserMessage->SetText(FText::FromString(UserMessage));	   
-		UserMessageEditableTextBox->SetText(FText::FromString(""));
-		MessageChatBox->AddChild(MessageRow);
+	    MessageRow = CreateWidget<UMessageChatWidget>(World, ChatListClass);
+		if (!ensure(MessageRow != nullptr)) return;
+		UE_LOG(LogTemp, Warning, TEXT("UInChatWidget::SetupInChatWidget Found FrndName ...%s"), *UserMessage);
+		MessageRow->UserMessage->SetText(FText::FromString(UserMessage));
+		
 	}
+}
+
+void UInChatWidget::SendMessagetowidget()
+{
+	MessageChatBox->AddChild(MessageRow);
+	UserMessageEditableTextBox->SetText(FText::FromString(""));
 }
